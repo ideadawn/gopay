@@ -9,8 +9,8 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	"github.com/iGoogle-ink/gopay"
 	"github.com/iGoogle-ink/gotil"
+	"github.com/ideadawn/gopay"
 )
 
 // SendCashRed 创建现金红包

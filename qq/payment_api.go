@@ -6,7 +6,6 @@
 package qq
 
 import (
-	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -16,8 +15,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/iGoogle-ink/gopay"
 	"github.com/iGoogle-ink/gotil"
+	"github.com/ideadawn/gopay"
 )
 
 // ParseNotifyToBodyMap 解析QQ支付异步通知的结果到BodyMap

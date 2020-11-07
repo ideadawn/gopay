@@ -13,7 +13,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
-	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -24,10 +23,10 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/iGoogle-ink/gopay"
 	"github.com/iGoogle-ink/gotil"
 	xaes "github.com/iGoogle-ink/gotil/aes"
 	"github.com/iGoogle-ink/gotil/xhttp"
+	"github.com/ideadawn/gopay"
 )
 
 // GetParamSign 获取微信支付所需参数里的Sign值（通过支付参数计算Sign值）

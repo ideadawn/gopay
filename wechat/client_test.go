@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/iGoogle-ink/gopay"
 	"github.com/iGoogle-ink/gotil"
 	"github.com/iGoogle-ink/gotil/xlog"
 	"github.com/iGoogle-ink/gotil/xrsa"
+	"github.com/ideadawn/gopay"
 )
 
 var (

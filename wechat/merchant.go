@@ -2,15 +2,14 @@ package wechat
 
 import (
 	"crypto/tls"
-	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
 
-	"github.com/iGoogle-ink/gopay"
 	"github.com/iGoogle-ink/gotil"
 	"github.com/iGoogle-ink/gotil/xhttp"
 	"github.com/iGoogle-ink/gotil/xlog"
+	"github.com/ideadawn/gopay"
 )
 
 // 企业付款（企业向微信用户个人付款）

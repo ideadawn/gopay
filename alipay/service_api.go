@@ -9,7 +9,6 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/hex"
-	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -21,10 +20,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iGoogle-ink/gopay"
 	"github.com/iGoogle-ink/gotil"
 	xaes "github.com/iGoogle-ink/gotil/aes"
 	"github.com/iGoogle-ink/gotil/xhttp"
+	"github.com/ideadawn/gopay"
 )
 
 // 允许进行 sn 提取的证书签名算法

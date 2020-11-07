@@ -1,24 +1,22 @@
 package gopay
 
 import (
-	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"io"
 	"sort"
 	"strings"
-	"sync"
+
+	"github.com/json-iterator/go"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type BodyMap map[string]interface{}
 
-var mu sync.RWMutex
-
 // 设置参数
 func (bm BodyMap) Set(key string, value interface{}) {
-	mu.Lock()
 	bm[key] = value
-	mu.Unlock()
 }
 
 // 获取参数
@@ -26,8 +24,6 @@ func (bm BodyMap) Get(key string) string {
 	if bm == nil {
 		return NULL
 	}
-	mu.RLock()
-	defer mu.RUnlock()
 	value, ok := bm[key]
 	if !ok {
 		return NULL
@@ -45,8 +41,6 @@ func (bm BodyMap) GetArrayBodyMap(key string) (array []BodyMap, err error) {
 	if bm == nil {
 		return nil, errors.New("param is nil")
 	}
-	mu.RLock()
-	defer mu.RUnlock()
 	value, ok := bm[key]
 	if !ok {
 		return nil, errors.New("param is not exist")
@@ -64,8 +58,6 @@ func (bm BodyMap) GetBodyMap(key string) (b BodyMap, err error) {
 	if bm == nil {
 		return nil, errors.New("param is nil")
 	}
-	mu.RLock()
-	defer mu.RUnlock()
 	value, ok := bm[key]
 	if !ok {
 		return nil, errors.New("param is not exist")
@@ -94,9 +86,7 @@ func convertToString(v interface{}) (str string) {
 
 // 删除参数
 func (bm BodyMap) Remove(key string) {
-	mu.Lock()
 	delete(bm, key)
-	mu.Unlock()
 }
 
 type xmlMapMarshal struct {
@@ -145,12 +135,10 @@ func (bm BodyMap) EncodeWeChatSignParams(apiKey string) string {
 		buf     strings.Builder
 		keyList []string
 	)
-	mu.RLock()
 	for k := range bm {
 		keyList = append(keyList, k)
 	}
 	sort.Strings(keyList)
-	mu.RUnlock()
 	for _, k := range keyList {
 		if v := bm.Get(k); v != NULL {
 			buf.WriteString(k)
@@ -171,12 +159,10 @@ func (bm BodyMap) EncodeAliPaySignParams() string {
 		buf     strings.Builder
 		keyList []string
 	)
-	mu.RLock()
 	for k := range bm {
 		keyList = append(keyList, k)
 	}
 	sort.Strings(keyList)
-	mu.RUnlock()
 	for _, k := range keyList {
 		if v := bm.Get(k); v != NULL {
 			buf.WriteString(k)

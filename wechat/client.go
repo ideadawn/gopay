@@ -479,7 +479,9 @@ func (w *Client) doSanBoxPost(bm gopay.BodyMap, path string) (bs []byte, err err
 		req, _ := json.Marshal(bm)
 		xlog.Debugf("Wechat_Request: %s", req)
 	}
-	res, bs, errs := xhttp.NewClient().Type(xhttp.TypeXML).Post(url).SendString(generateXml(bm)).EndBytes()
+	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
+	res, bs, errs := httpClient.Type(xhttp.TypeXML).Post(url).SendString(generateXml(bm)).EndBytes()
 	if len(errs) > 0 {
 		return nil, errs[0]
 	}
@@ -513,6 +515,7 @@ func (w *Client) doProdPost(bm gopay.BodyMap, path string, tlsConfig *tls.Config
 		}
 	}()
 	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
 	if w.IsProd && tlsConfig != nil {
 		httpClient.SetTLSConfig(tlsConfig)
 	}
@@ -542,6 +545,7 @@ func (w *Client) doProdPost(bm gopay.BodyMap, path string, tlsConfig *tls.Config
 func (w *Client) doProdPostPure(bm gopay.BodyMap, path string, tlsConfig *tls.Config) (bs []byte, err error) {
 	var url = baseUrlCh + path
 	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
 	if w.IsProd && tlsConfig != nil {
 		httpClient.SetTLSConfig(tlsConfig)
 	}
@@ -593,7 +597,10 @@ func (w *Client) doProdGet(bm gopay.BodyMap, path, signType string) (bs []byte, 
 	}
 	param := bm.EncodeGetParams()
 	url = url + "?" + param
-	res, bs, errs := xhttp.NewClient().Get(url).EndBytes()
+
+	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
+	res, bs, errs := httpClient.Get(url).EndBytes()
 	if len(errs) > 0 {
 		return nil, errs[0]
 	}

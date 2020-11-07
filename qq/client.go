@@ -248,6 +248,7 @@ func (q *Client) doQQ(bm gopay.BodyMap, url string, tlsConfig *tls.Config) (bs [
 	}()
 
 	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
 	if tlsConfig != nil {
 		httpClient.SetTLSConfig(tlsConfig)
 	}
@@ -289,7 +290,10 @@ func (q *Client) doQQGet(bm gopay.BodyMap, url, signType string) (bs []byte, err
 	}
 	param := bm.EncodeGetParams()
 	url = url + "?" + param
-	res, bs, errs := xhttp.NewClient().Get(url).EndBytes()
+
+	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
+	res, bs, errs := httpClient.Get(url).EndBytes()
 	if len(errs) > 0 {
 		return nil, errs[0]
 	}
@@ -321,6 +325,7 @@ func (q *Client) doQQRed(bm gopay.BodyMap, url string, tlsConfig *tls.Config) (b
 	}()
 
 	httpClient := xhttp.NewClient()
+	httpClient.Transport.Proxy = gopay.GetProxy()
 	if tlsConfig != nil {
 		httpClient.SetTLSConfig(tlsConfig)
 	}
